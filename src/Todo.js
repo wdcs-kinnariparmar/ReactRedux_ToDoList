@@ -1,41 +1,23 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState} from 'react';
 import { addItems,editItem,update, deleteItem, checkedItem,checkList, uncheckList, allList, removeAll} from './action/action';
 
 import "./App.css";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-// get the local data back
-
-const getLocalData = () => {
-    const lists = localStorage.getItem("reduxtodolist");
-
-    if(lists) {
-        return JSON.parse(lists);
-    }
-    else{
-        return[];
-    }
-}
-
 const Todo = () => {
     const [inputData,setInputData] = useState('');
     const list = useSelector(state => state.Reducers.list);
+    const templist = useSelector(state => state.Reducers.templist);
     const dispatch = useDispatch();
 
     const saveUpdate = (e,key) => {
         e.preventDefault();
         const newItem = e.target.value;
         const data = {newItem};
-        
+        console.log(newItem);
         dispatch(update({id: key,data: data}))
     }
-
-    //set data in local storage.
-    useEffect(() => {
-        localStorage.setItem("reduxtodolist", JSON.stringify(list));
-    }, [list]);
-
 
     return (
         <>
@@ -62,27 +44,27 @@ const Todo = () => {
                                     return (
                                         <div className = "eachitem" key = {ele.id}>
 
-                                        <span>
-                                            {ele.editing ? (
-                                                <form onSubmit={saveUpdate} key = {ele.id}>
-                                                        <input key={ele.id} type="text"
-                                                            onChange={e => e.target.value}
-                                                            placeholder='add new item...'
-                                                        />
-                                                        <button type='submit'>Update</button>
-                                                </form>
-                                            ) : (<>
-                                                        <h3>{ele.item}</h3>
-                                                        <button  onClick = {() => {
-                                                            console.log("ele.id", ele.id)
-                                                            dispatch(editItem(ele.id))}}> Edit </button>
-                                                    
-                    
-                                                 </>)}   
-                                      
-                                            <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
-                                            <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
-                                        </span>
+                                            <span>
+                                                {ele.editing ? (
+                                                    <form onSubmit={saveUpdate} key = {ele.id}>
+                                                            <input key={ele.id} type="text"
+                                                                onChange={e => e.target.value}
+                                                                placeholder='add new item...'
+                                                            />
+                                                            <button type='submit'>Update</button>
+                                                    </form>
+                                                ) : (<>
+                                                            <h3>{ele.item}</h3>
+                                                            <button  onClick = {() => {
+                                                                console.log("ele.id", ele.id)
+                                                                dispatch(editItem(ele.id))}}> Edit </button>
+                                                        
+                        
+                                                    </>)}   
+                                        
+                                                <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
+                                                <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
+                                            </span>
                                         </div>
                                     )
                                 })
