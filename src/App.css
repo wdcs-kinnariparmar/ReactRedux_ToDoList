@@ -1,0 +1,46 @@
+.child_div h2{
+    text-align: center;
+    color: blue;
+    font-size: 36px;
+    
+}
+/* .child_div input {
+    text-align: center;
+    color: blue;
+    font-size: 36px;
+}
+
+.child_div button {
+    text-align: center;
+    color: blue;
+    font-size: 36px;
+} */
+
+.add_items {
+    text-align: center;
+}
+.add_items input{
+    outline: blue solid 2px;
+    justify-self: center;
+    min-width: 300px;
+    height: 20px;
+    
+}
+
+.add_items button{
+    outline: blue solid 2px;
+    justify-self: center;  
+    cursor: pointer; 
+    height: 27px;
+    min-width: 50px;
+    font-size: 18px;
+    color: cadetblue;
+}
+.checked_btn {
+    text-align: center;
+    margin-top: 50px;
+}
+.checked_btn button{
+    border: blue solid 2px ;
+    margin: 20px 20px 20px 20px ;
+}
