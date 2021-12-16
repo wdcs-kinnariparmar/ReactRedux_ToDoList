@@ -45,12 +45,6 @@ export const deleteItem = (id) => {
     
 }
 
-export const checkedItem = () => {
-    return{
-        type: "Checked_Item",
-    }
-}
-
 export const removeAll  = () => {
     return{
         type: "Remove_All"

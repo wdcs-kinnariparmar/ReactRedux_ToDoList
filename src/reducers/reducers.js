@@ -33,11 +33,6 @@ const Reducers = (state = initialState, action) => {
                 list: state.list.map(ele => ele.id === action.payload.id ? {...ele,item: action.payload.item, editing: false} : ele)
             }   
 
-        case "Checked_Item":
-            return{
-                list: state.list,
-            } 
-
         case "Remove_All" :     
             return {
                 list : []
