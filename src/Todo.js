@@ -1,7 +1,5 @@
 import React, { useState, useRef} from 'react';
-import { addItems,editItem,update, deleteItem, checkedItem,checkList, uncheckList, allList, removeAll} from './action/action';
-
-import "./App.css";
+import { addItems,editItem,saveUpdate, deleteItem, checkedItem, removeAll} from './action/action';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
@@ -11,11 +9,6 @@ const Todo = () => {
     const dispatch = useDispatch();
     const inputRef = useRef(true);
     const [sort, setSort] = useState("all");
-
-    const changeFocus = () => {
-        inputRef.current.disabled = false;
-        inputRef.current.focus();
-    }
 
     return (
         <>
@@ -41,18 +34,20 @@ const Todo = () => {
                                     return (
                                             <div className = "eachitem" key = {ele.id}>
 
-                                                <span
-                                                    ref = {inputRef}
-                                                    disabled = {inputRef}>
-                                                    <h3>{ele.item}</h3>
-                                                    <button  onClick = {() => {
-                                                        console.log("ele.id", ele.id)
-                                                        console.group("ele.item", ele.item)
-                                                        dispatch(editItem(ele))}}> Edit </button>
-                
-                                                
+                                                <span>
+                                                    <h3>{ele.editing ? inputData : ele.item}</h3>
+                                    
+                                                    {ele.editing ? null : 
+                                                        <button  onClick = {() => {dispatch(editItem(ele.editing = true),setInputData(ele.item))}}> Edit </button>}
+                                                    {ele.editing ? <button  onClick = {() => {
+                                                        console.log("ele id", ele.id)
+                                                        console.log("inputData", inputData)
+                                                        dispatch(saveUpdate(ele.id,ele.item = inputData),setInputData(""))}}> save </button>
+                                                    : null}
                                                     <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
-                                                    <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
+                                                    <button type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = !ele.checked))}>
+                                                        {ele.checked ? "completed" : "active"}
+                                                    </button>
                                                 </span>
                                             </div>
                                         )
@@ -76,7 +71,9 @@ const Todo = () => {
             
                                             
                                                     <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
-                                                    <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
+                                                    <button type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = !ele.checked))}>
+                                                        {ele.checked ? "completed" : "active"}
+                                                    </button>
                                                 </span>
                                             </div>
                                         )
@@ -100,7 +97,9 @@ const Todo = () => {
             
                                             
                                                     <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
-                                                    <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
+                                                    <button type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = !ele.checked))}>
+                                                        {ele.checked ? "completed" : "active"}
+                                                    </button>
                                                 </span>
                                             </div>
                                         )

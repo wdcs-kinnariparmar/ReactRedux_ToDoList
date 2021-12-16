@@ -23,42 +23,19 @@ const Reducers = (state = initialState, action) => {
         case "Edit_Item" :
             
             return {
-                list: state.list.map((ele) => ele.id === action.payload.id ? { ...ele, editing: true} : ele)
+                list: state.list
             }   
 
-
-        case "Update" :
-            console.log("action.payload",action.payload);
+        case "Save_Update" :
+            console.log("id",action.payload.id)
+            console.log("item",action.payload.item)
             return {
-                list: state.list.map((ele) => ele.id === action.payload.id ? { ...ele, item: action.payload.item, editing: false} : {...ele, editing: false})
-            }  
+                list: state.list.map(ele => ele.id === action.payload.id ? {...ele,item: action.payload.item, editing: false} : ele)
+            }   
 
         case "Checked_Item":
-
             return{
-                list: state.list
-            } 
-
-        case "Check_List": 
-            // const text = state.list.map((ele) => ele.checked === true);
-        
-            return { 
-                list: state.templist
-            }
-             
-        case  "Uncheck_List" :
-            // const text= state.list.map((ele) => ele.checked !== true);  
-            
-            return {
-                list: state.templist
-                
-            }
-            
- 
-        case "All_List":
-                
-            return {
-                list : state.list
+                list: state.list,
             } 
 
         case "Remove_All" :     

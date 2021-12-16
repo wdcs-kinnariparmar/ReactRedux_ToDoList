@@ -16,18 +16,17 @@ export const editItem = (id) => {
     return{ 
         type: "Edit_Item", 
         payload: {
-            id,
-            key: id
+            id   
         }
     }
 }
 
-export const update = (id, data) => {
-
-    return{
-        type: "Update",
+export const saveUpdate = (id, item) => {
+    
+    return{ 
+        type: "Save_Update", 
         payload: {
-            id, data
+            id, item  
         }
     }
 }
@@ -46,35 +45,13 @@ export const deleteItem = (id) => {
     
 }
 
-export const checkedItem = (id,item) => {
+export const checkedItem = () => {
     return{
         type: "Checked_Item",
-        payload: {  id , item }
     }
 }
 
-export const checkList = (checked,list) => {
-    return{
-        type: "Check_List",
-        payload: { checked,list }
-    }
-}
-
-export const uncheckList = (checked,list) => {
-    return{
-        type: "Uncheck_List",
-        payload: { checked,list}
-    }
-}
-
-export const allList = (checked,list) => {
-    return{
-        type: "All_List",
-        payload: { checked,list }
-    }
-}
-
-export const removeAll  = (id) => {
+export const removeAll  = () => {
     return{
         type: "Remove_All"
     }
