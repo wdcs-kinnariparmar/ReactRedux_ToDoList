@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useRef} from 'react';
 import { addItems,editItem,update, deleteItem, checkedItem,checkList, uncheckList, allList, removeAll} from './action/action';
 
 import "./App.css";
@@ -8,15 +8,13 @@ import { useDispatch } from 'react-redux';
 const Todo = () => {
     const [inputData,setInputData] = useState('');
     const list = useSelector(state => state.Reducers.list);
-    const templist = useSelector(state => state.Reducers.templist);
     const dispatch = useDispatch();
+    const inputRef = useRef(true);
+    const [sort, setSort] = useState("all");
 
-    const saveUpdate = (e,key) => {
-        e.preventDefault();
-        const newItem = e.target.value;
-        const data = {newItem};
-        console.log(newItem);
-        dispatch(update({id: key,data: data}))
+    const changeFocus = () => {
+        inputRef.current.disabled = false;
+        inputRef.current.focus();
     }
 
     return (
@@ -38,37 +36,78 @@ const Todo = () => {
 
                         {/* show the lists */}
                     <div>
-                        
-                            {
+                        { sort === "all" ?
+                            list.map((ele) => {
+                                    return (
+                                            <div className = "eachitem" key = {ele.id}>
+
+                                                <span
+                                                    ref = {inputRef}
+                                                    disabled = {inputRef}>
+                                                    <h3>{ele.item}</h3>
+                                                    <button  onClick = {() => {
+                                                        console.log("ele.id", ele.id)
+                                                        console.group("ele.item", ele.item)
+                                                        dispatch(editItem(ele))}}> Edit </button>
+                
+                                                
+                                                    <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
+                                                    <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
+                                                </span>
+                                            </div>
+                                        )
+                                }) : null
+                            }
+                            
+                            { sort === "checked" ?
                                 list.map((ele) => {
                                     return (
-                                        <div className = "eachitem" key = {ele.id}>
+                                        ele.checked === true && (
+                                            <div className = "eachitem" key = {ele.id}>
 
-                                            <span>
-                                                {ele.editing ? (
-                                                    <form onSubmit={saveUpdate} key = {ele.id}>
-                                                            <input key={ele.id} type="text"
-                                                                onChange={e => e.target.value}
-                                                                placeholder='add new item...'
-                                                            />
-                                                            <button type='submit'>Update</button>
-                                                    </form>
-                                                ) : (<>
-                                                            <h3>{ele.item}</h3>
-                                                            <button  onClick = {() => {
-                                                                console.log("ele.id", ele.id)
-                                                                dispatch(editItem(ele.id))}}> Edit </button>
-                                                        
-                        
-                                                    </>)}   
-                                        
-                                                <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
-                                                <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
-                                            </span>
-                                        </div>
+                                                <span
+                                                    ref = {inputRef}
+                                                    disabled = {inputRef}>
+                                                    <h3>{ele.item}</h3>
+                                                    <button  onClick = {() => {
+                                                        console.log("ele.id", ele.id)
+                                                        console.group("ele.item", ele.item)
+                                                        dispatch(editItem(ele))}}> Edit </button>
+            
+                                            
+                                                    <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
+                                                    <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
+                                                </span>
+                                            </div>
+                                        )
                                     )
-                                })
+                                }) : null
                             }
+                            { sort === "unchecked" ?
+                                list.map((ele) => {
+                                    return (
+                                        ele.checked === false && (
+                                            <div className = "eachitem" key = {ele.id}>
+
+                                                <span
+                                                    ref = {inputRef}
+                                                    disabled = {inputRef}>
+                                                    <h3>{ele.item}</h3>
+                                                    <button  onClick = {() => {
+                                                        console.log("ele.id", ele.id)
+                                                        console.group("ele.item", ele.item)
+                                                        dispatch(editItem(ele))}}> Edit </button>
+            
+                                            
+                                                    <button onClick = {() => {dispatch(deleteItem(ele.id))}} > Close </button>
+                                                    <input type="checkbox" onClick = {() => dispatch(checkedItem(ele.checked = true))}/>
+                                                </span>
+                                            </div>
+                                        )
+                                    )
+                                }): null
+                            }
+                            
                             
                     </div>
                     
@@ -77,9 +116,9 @@ const Todo = () => {
             </div>
 
             <div className = "checked_btn">
-                <button onClick={() => {dispatch(checkList(list))}}>Checked</button>
-                <button onClick={() => {dispatch(uncheckList(list))}}>UnChecked</button>
-                <button onClick={() => {dispatch(allList(list))}}>All</button>
+                <button onClick={() => {setSort("checked")}}>Checked</button>
+                <button onClick={() => {setSort("unchecked")}}>UnChecked</button>
+                <button onClick={() => {setSort("all")}}>All</button>
                 <button className = "remove_btn" onClick = {() => {dispatch(removeAll())}}><span>Remove All</span></button>
             </div>
 

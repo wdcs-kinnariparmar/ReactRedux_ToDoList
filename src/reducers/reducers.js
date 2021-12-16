@@ -1,8 +1,7 @@
 import {combineReducers} from "redux";
 
 const initialState = {
-    list : [],
-    templist:[]
+    list : []
 }
 
 const Reducers = (state = initialState, action) => {
@@ -12,24 +11,18 @@ const Reducers = (state = initialState, action) => {
         
        case "Add_Item" :
             return {
-                ...state,
                 list: [ 
                     ...state.list,action.payload
-                ],
-                temlist: [
-                    ...state.list, action.payload
                 ]
             } 
         case "Delete_Item":
             
             return {
-                ...state.list,
                 list: state.list.filter(ele => ele.id !== action.payload.id)
             }
         case "Edit_Item" :
             
             return {
-                ...state.list,
                 list: state.list.map((ele) => ele.id === action.payload.id ? { ...ele, editing: true} : ele)
             }   
 
@@ -37,45 +30,40 @@ const Reducers = (state = initialState, action) => {
         case "Update" :
             console.log("action.payload",action.payload);
             return {
-                ...state.list,
                 list: state.list.map((ele) => ele.id === action.payload.id ? { ...ele, item: action.payload.item, editing: false} : {...ele, editing: false})
             }  
 
         case "Checked_Item":
 
             return{
-                list: state.list,
+                list: state.list
             } 
 
         case "Check_List": 
             // const text = state.list.map((ele) => ele.checked === true);
         
             return { 
-                ...state.list,
-                list: state.list.filter((ele) => ele.checked === true)
+                list: state.templist
             }
              
         case  "Uncheck_List" :
             // const text= state.list.map((ele) => ele.checked !== true);  
             
             return {
-                ...state.list,
-                list: state.list.filter((ele) => ele.checked !== true)
-                    
+                list: state.templist
+                
             }
             
  
         case "All_List":
                 
             return {
-                ...state.list,
-                templist : state.list
+                list : state.list
             } 
 
         case "Remove_All" :     
             return {
-                ...state,
-                templist : []
+                list : []
             }
         default :
             return state;
