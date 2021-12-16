@@ -10,11 +10,18 @@ const Reducers = (state = initialState, action) => {
     switch(action.type){
         
        case "Add_Item" :
-            return {
-                list: [ 
-                    ...state.list,action.payload
-                ]
-            } 
+           if(action.payload.item === ""){
+               alert("please enter list...");
+               return state;
+           }
+           else{
+                return {
+                    list: [ 
+                        ...state.list,action.payload
+                    ]
+                } 
+           }
+            
         case "Delete_Item":
             
             return {
