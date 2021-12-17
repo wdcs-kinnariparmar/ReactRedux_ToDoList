@@ -7,7 +7,6 @@ const Todo = () => {
     const [inputData,setInputData] = useState('');
     const list = useSelector(state => state.Reducers.list);
     const dispatch = useDispatch();
-    const inputRef = useRef(true);
     const [sort, setSort] = useState("all");
 
     return (
@@ -59,9 +58,7 @@ const Todo = () => {
                                         ele.checked === true && (
                                             <div className = "eachitem" key = {ele.id}>
 
-                                                <span
-                                                    ref = {inputRef}
-                                                    disabled = {inputRef}>
+                                                <span>
                                                     <h3>{ele.item}</h3>
                                                     
                                                     {ele.editing ? null : 
@@ -86,9 +83,7 @@ const Todo = () => {
                                         ele.checked === false && (
                                             <div className = "eachitem" key = {ele.id}>
 
-                                                <span
-                                                    ref = {inputRef}
-                                                    disabled = {inputRef}>
+                                                <span>
                                                     <h3>{ele.item}</h3>
                                                     
                                                     {ele.editing ? null : 
